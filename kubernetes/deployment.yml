@@ -6,6 +6,7 @@ metadata:
     app: ml-classification
   namespace: default
 spec:
+  progressDeadlineSeconds: 3600
   replicas: 3
   selector:
     matchLabels:
@@ -28,8 +29,8 @@ spec:
             - containerPort: 80
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "250m"
+              memory: "128Mi"
+              cpu: "500m"
             limits:
               memory: "128Mi"
               cpu: "500m"
