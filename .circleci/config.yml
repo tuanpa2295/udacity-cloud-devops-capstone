@@ -70,13 +70,20 @@ jobs:
             docker tag ml-classification phamanhtuan221995/ml-classification
             docker push phamanhtuan221995/ml-classification
       - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: CapstoneEKS-ouGTG7ol8WdS
+          cluster-name: << parameters.cluster-name >>
           install-kubectl: true
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
           resource-file-path: ./kubernetes/deployment.yaml
           resource-name: deployment/ml-classification
           show-kubectl-command: true
+      - run:
+          name: Test cluster
+          command: |
+            kubectl get nodes
+            kubectl get deployment
+            kubectl get pod -o wide
+            kubectl get services
       - run:
           name: Cleaning up
           command: docker system prune
@@ -86,6 +93,7 @@ workflows:
   build-deploy:
     jobs:
       - build:
+          cluster-name: CapstoneEKS-ouGTG7ol8WdS
           filters:
             branches:
               only:
