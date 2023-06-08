@@ -39,11 +39,6 @@ jobs:
             echo DOCKER_HUB_PASSWORD=$DOCKER_HUB_PASSWORD >> .env
             echo DOCKER_HUB_USERNAME=$DOCKER_HUB_USERNAME >> .env
             cat .env
-      - restore_cache:
-          keys:
-            - v1-{{ .Branch }}
-          paths:
-            - /caches/ml-classification.tar
       - run:
           name: Docker login
           command: |
@@ -61,10 +56,6 @@ jobs:
           command: |
             mkdir -p /caches
             docker save -o /caches/ml-classification.tar ml-classification
-      - save_cache:
-          key: v1-{{ .Branch }}-{{ epoch }}
-          paths:
-            - /caches/ml-classification.tar
       - run:
           name: Push Docker Image
           command: |
