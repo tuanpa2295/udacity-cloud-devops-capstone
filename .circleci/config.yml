@@ -36,7 +36,7 @@ jobs:
       - run:
           name: Docker login
           command: |
-            docker login phamanhtuan221995/ml-classification -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
+            echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
       - run:
           name: Load Docker image layer cache
           command: |
