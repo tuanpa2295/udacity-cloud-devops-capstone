@@ -12,7 +12,7 @@ executors:
 jobs:
   build:
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: cimg/python:3.11.4
     parameters:
       cluster-name:
         description: |
@@ -20,7 +20,9 @@ jobs:
         type: string
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
       - run:
           name: Install dependencies
           command: |
