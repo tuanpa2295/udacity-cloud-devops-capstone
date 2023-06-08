@@ -1,0 +1,52 @@
+version: 2.1
+
+executors:
+  default:
+    docker:
+      - image: circleci/openjdk:11-jdk
+
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:11-jdk
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: echo "Building..."
+      - run:
+          name: Lint HTML
+          command: tidy -q -e *.html
+      - run:
+          name: Build Docker Image
+          command: docker build -t ml-classification .
+      - run:
+          name: Push Docker Image
+          command: |
+            docker tag ml-classification phamanhtuan221995/ml-classification
+            docker push phamanhtuan221995/ml-classification
+      - run:
+          name: Deploying
+          command: |
+            echo "Deploying to AWS..."
+            aws eks --region us-east-1 update-kubeconfig --name CapstoneEKS-ouGTG7ol8WdS
+            kubectl config use-context arn:aws:eks:us-east-1:876162603122:cluster/CapstoneEKS-ouGTG7ol8WdS
+            kubectl set image deployments/capstone-project-cloud-devops capstone-project-cloud-devops=phamanhtuan221995/ml-classification:latest
+            kubectl apply -f deployment/deployment.yml
+            kubectl get nodes
+            kubectl get deployment
+            kubectl get pod -o wide
+            kubectl get service/capstone-project-cloud-devops
+      - run:
+          name: Cleaning up
+          command: docker system prune
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - main
