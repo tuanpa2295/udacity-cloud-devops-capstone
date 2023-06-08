@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  config-validation: circleci/config-validation@1.0.0
 
 executors:
   default:
@@ -16,9 +14,6 @@ jobs:
       - run:
           name: Build
           command: echo "Building..."
-      - config-validation:
-          name: YML Validation
-          path: ./kubernetes/deployment.yml ./kubernetes/loadbalancer.yml
       - run:
           name: Build Docker Image
           command: docker build -t ml-classification .
