@@ -11,7 +11,7 @@ dockerpath="phamanhtuan221995/ml-classification"
 # Step 2:
 # Authenticate & tag
 echo "Docker ID and Image: $dockerpath"
-# docker login --username sabbir33
+# docker login --username phamanhtuan221995
 docker image tag ml-classification $dockerpath
 
 # Step 3:
