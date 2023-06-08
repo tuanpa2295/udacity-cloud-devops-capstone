@@ -65,7 +65,7 @@ jobs:
           aws-region: << parameters.aws-region >>
           install-kubectl: true
       - kubernetes/create-or-update-resource:
-          resource-file-path: ./kubernetes/deployment.yaml
+          resource-file-path: ./kubernetes/deployment.yml
           resource-name: deployment/ml-classification
           get-rollout-status: true
           show-kubectl-command: true
