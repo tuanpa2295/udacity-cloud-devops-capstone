@@ -69,6 +69,11 @@ jobs:
           resource-name: deployment/ml-classification
           get-rollout-status: true
           show-kubectl-command: true
+      - kubernetes/create-or-update-resource:
+          resource-file-path: ./kubernetes/aws-authen-cm.yml
+          resource-name: configmap/aws-auth
+          get-rollout-status: true
+          show-kubectl-command: true
       - run:
           name: Test cluster
           command: |
