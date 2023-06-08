@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   aws-eks: circleci/aws-eks@2.2.0
-  kubernetes: circleci/kubernetes@1.25
+  kubernetes: circleci/kubernetes@1.2.0
 
 jobs:
   build:
