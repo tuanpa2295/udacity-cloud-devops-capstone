@@ -82,9 +82,9 @@ jobs:
             kubectl get deployment
             kubectl get pod -o wide
             kubectl get services
-      - run:
-          name: Cleaning up
-          command: docker system prune
+      # - run:
+      #     name: Cleaning up
+      #     command: docker system prune
 
 workflows:
   version: 2

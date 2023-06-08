@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: capstone-project-cloud-devops
+  name: ml-classification
   labels:
-    app: capstone-project-cloud-devops
+    app: ml-classification
   namespace: default
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: capstone-project-cloud-devops
+      app: ml-classification
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -18,26 +18,33 @@ spec:
   template:
     metadata:
       labels:
-        app: capstone-project-cloud-devops
+        app: ml-classification
     spec:
       containers:
         - image: phamanhtuan221995/ml-classification:latest
           imagePullPolicy: Always
-          name: capstone-project-cloud-devops
+          name: ml-classification
           ports:
             - containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: capstone-project-cloud-devops
+  name: ml-classification
   labels:
-    app: capstone-project-cloud-devops
+    app: ml-classification
 spec:
   type: LoadBalancer
   selector:
-    app: capstone-project-cloud-devops
+    app: ml-classification
   ports:
     - port: 80
       targetPort: 80
