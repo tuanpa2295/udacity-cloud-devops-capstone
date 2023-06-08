@@ -54,6 +54,7 @@ jobs:
       - run:
           name: Save Docker image layer cache
           command: |
+            chmod -R 777 ../
             mkdir -p /caches
             docker save -o /caches/ml-classification.tar ml-classification
       - run:
