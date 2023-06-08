@@ -36,7 +36,7 @@ jobs:
       - run:
           name: Docker login
           command: |
-            echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+            docker login -u "$DOCKER_HUB_USERNAME" -p $(echo "$DOCKER_HUB_PASSWORD")
       - run:
           name: Load Docker image layer cache
           command: |
