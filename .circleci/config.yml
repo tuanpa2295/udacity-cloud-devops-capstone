@@ -18,6 +18,12 @@ jobs:
         description: |
           Name of the EKS cluster
         type: string
+        default: "CapstoneEKS-ouGTG7ol8WdS"
+      aws-region:
+        description: |
+          AWS region
+        type: string
+        default: "us-east-1"
     steps:
       - checkout
       - setup_remote_docker:
@@ -61,12 +67,13 @@ jobs:
             docker push phamanhtuan221995/ml-classification
       - aws-eks/install-aws-iam-authenticator
       - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: "CapstoneEKS-ouGTG7ol8WdS"
+          cluster-name: << parameters.cluster-name >>
+          aws-region: << parameters.aws-region >>
           install-kubectl: true
       - kubernetes/create-or-update-resource:
-          get-rollout-status: true
           resource-file-path: ./kubernetes/deployment.yaml
           resource-name: deployment/ml-classification
+          get-rollout-status: true
           show-kubectl-command: true
       - run:
           name: Test cluster
@@ -85,6 +92,7 @@ workflows:
     jobs:
       - build:
           cluster-name: CapstoneEKS-ouGTG7ol8WdS
+          aws-region: $AWS_DEFAULT_REGION
           filters:
             branches:
               only:
