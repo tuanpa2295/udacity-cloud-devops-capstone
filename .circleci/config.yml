@@ -59,8 +59,9 @@ jobs:
           command: |
             docker tag ml-classification phamanhtuan221995/ml-classification
             docker push phamanhtuan221995/ml-classification
+      - aws-eks/install-aws-iam-authenticator
       - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: CapstoneEKS-ouGTG7ol8WdS
+          cluster-name: "CapstoneEKS-ouGTG7ol8WdS"
           install-kubectl: true
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
