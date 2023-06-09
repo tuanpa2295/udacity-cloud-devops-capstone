@@ -5,6 +5,37 @@ orbs:
   kubernetes: circleci/kubernetes@1.2.0
 
 jobs:
+  lint:
+    docker:
+      - image: python:3.7.3-stretch
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            - v1-dependencies-
+
+      - run:
+          name: Install python dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            make install
+            # Install hadolint
+            wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
+                chmod +x /bin/hadolint
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+      - run:
+          name: run lint
+          command: |
+            . venv/bin/activate
+            make lint
   build:
     docker:
       - image: cimg/python:3.11.4
@@ -72,8 +103,6 @@ jobs:
       - kubernetes/create-or-update-resource:
           resource-file-path: ./kubernetes/aws-authen-cm.yml
           resource-name: configmap/aws-auth
-          get-rollout-status: true
-          show-kubectl-command: true
       - run:
           name: Test cluster
           command: |
@@ -81,14 +110,15 @@ jobs:
             kubectl get deployment
             kubectl get pod -o wide
             kubectl get services
-      # - run:
-      #     name: Cleaning up
-      #     command: docker system prune
+      - run:
+          name: Cleaning up
+          command: docker system prune
 
 workflows:
   version: 2
   build-deploy:
     jobs:
+      - lint
       - build:
           cluster-name: CapstoneEKS-0J5F5Y6TBD53
           aws-region: $AWS_DEFAULT_REGION
