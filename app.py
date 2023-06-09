@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    html = f"<h3>Sklearn Prediction Home</h3>"
+    html = f"<h3>Udacity Capstone Project-Cloud DevOps Engineer</h3>"
     return html.format(format)
 
 if __name__ == "__main__":
