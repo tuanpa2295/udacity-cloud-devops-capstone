@@ -5,8 +5,7 @@
     "StackId": "arn:aws:cloudformation:us-east-1:876162603122:stack/capstone/478fd140-05ae-11ee-bfb4-0eec956bdd8f"
 }
 
-./create-stack.sh capstone-eks ../cloudformation/eks-cluster.yml ../cloudformat
-ion/eks-cluster-params.json --profile udacity
+./create-stack.sh capstone-eks ../cloudformation/eks-cluster.yml ../cloudformation/eks-cluster-params.json --profile udacity
 {
     "StackId": "arn:aws:cloudformation:us-east-1:876162603122:stack/capstone-eks/d0b1ddb0-05ae-11ee-b9e9-12484c5e6641"
 }
